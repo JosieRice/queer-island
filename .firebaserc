@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "default": "queer-island"
+  },
+  "dataconnectEmulatorConfig": {
+    "postgres": {
+      "localConnectionString": "postgresql://localhost:5432?sslmode=disable"
+    }
+  }
+}
