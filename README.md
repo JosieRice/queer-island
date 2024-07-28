@@ -12,7 +12,7 @@ npm run dev
 
 This starts your app in development mode, rebuilding assets on file changes.
 
-## Deployment
+## Run Production Build Locally
 
 First, build your app for production:
 
@@ -28,11 +28,8 @@ npm start
 
 Now you'll need to pick a host to deploy it to.
 
-### DIY
+## Deployment
 
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/server`
-- `build/client`
+```sh
+firebase deploy
+```
