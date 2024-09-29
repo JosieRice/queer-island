@@ -33,3 +33,9 @@ Now you'll need to pick a host to deploy it to.
 ```sh
 firebase deploy
 ```
+
+or
+
+```sh
+firebase deploy --except functions
+```
