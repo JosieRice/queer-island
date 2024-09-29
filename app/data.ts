@@ -17,7 +17,9 @@ type ContactMutation = {
   name: string;
   primarySport: Sport;
   instagram?: string;
-  // accessibilityNotes?: string[];
+  website?: string;
+  accessibilityNotes: string[];
+  description: string;
   // okayToCheer?: boolean;
   skillLevels: SkillLevel[];
   categories: Category[];
@@ -111,65 +113,69 @@ const sports: ContactMutation[] = [
     primarySport: "soccer",
     instagram: "https://www.instagram.com/queersoccervic/",
     categories: ['ball sports'],
-    // what: "pick up soccer",
+    description: "pick up soccer",
     // when: "Every Saturday 2:30-4:30, all year. Drop-in. Message the instagram page to confirm, sometimes soccer is cancelled if there are not enough people planning to go.",
     // where: "David Spencer field",
     // who: "queer, dyke/lesbian, bi women, trans and non-binary adults",
     skillLevels: ["all"],
     // okayToCheer: true,
     // cost: '0',
-    // accessibilityNotes: [
-    //   "Sidelines crew (non-playing) members welcome.",
-    //   "Ground at the field is somewhat uneven but flat.",
-    //   "Gendered bathrooms nearby",
-    //   "Street parking adjacent to the field"
-    // ],
+    accessibilityNotes: [
+      "Sidelines crew (non-playing) members welcome.",
+      "Ground at the field is somewhat uneven but flat.",
+      "Gendered bathrooms nearby",
+      "Street parking adjacent to the field"
+    ],
     id: "1",
   },
   {
     name: "South Island Basketball",
     primarySport: 'basketball',
     instagram: "https://www.instagram.com/southislandbasketball?igsh=a3kxMTcxd3hhMXpx",
-// What: Drop-in basketball 
+    description: "Drop-in basketball ",
 // When: Tuesdays 7-9 PM
 // Where: Naden Athletic Centre
 // Who: Women, trans, and non-binary folx 16+
 // Level of play: All abilities
 // Cost: ~$6/session
-// Accessibility notes: Bring a form of ID, as you will be asked to enter Naden. 
     categories: ['ball sports'],
     id: '2',
-    skillLevels: ['all']
+    skillLevels: ['all'],
+    accessibilityNotes: [
+      "Bring a form of ID, as you will be asked to enter Naden"
+    ]
   },
   {
     name: "The Gay Agenda",
     primarySport: 'softball',
+    description: "tGA is an inclusive recreational queer softball team that plays in a mixed gender league",
 // Tgavictoria@gmail.com
-// What: tGA is an inclusive recreational queer softball team that plays in a mixed gender league
 // When: Spring 2025 *depending on player interest* 
 // Where: Variable
 // Who: Queer identifying adults of all genders
 // Level of play: Recreational 
 // Cost: Variable with fundraising opportunities 
-// Accessibility notes: All skill levels welcome
     categories: ['ball sports'],
     id: '3',
-    skillLevels: []
+    skillLevels: ['all'],
+    accessibilityNotes: []
   },
   {
     name: "Victoria Pride Ride",
     instagram: "https://www.instagram.com/vicprideride/",
     primarySport: 'cycling',
     categories: ['wheels'],
-// What: Bike riding events
+    description: "Bike riding events",
 // When: Variable
 // Where: Variable
 // Who: lgbtqia2s+ & allies
-// Level of play: Variable. Rides are marked on a 3-level system
 // Cost: Free
-// Accessibility notes: All types of bike welcome. 
     id: '4',
-    skillLevels: ['varies']
+    skillLevels: ['varies'],
+    accessibilityNotes: [
+      'All types of bike welcome',
+      "Rides are marked on a 3-level system"
+    ]
   },
   {
     name: "Victoria Queer Skate",
@@ -177,9 +183,10 @@ const sports: ContactMutation[] = [
     primarySport: 'skate boarding',
     categories: ['wheels'],
     id: '5',
-    skillLevels: []
+    skillLevels: [],
+    accessibilityNotes: [],
+    description: "drop in skating events at skate parks",
 
-// What: drop in skating events at skate parks
 // When: biweekly evenings (check IG for details)
 // Where: Topaz Park
 // Who: Queer and marginalized skaters 
@@ -190,25 +197,26 @@ const sports: ContactMutation[] = [
     primarySport: "fitness",
     id: '6',
     skillLevels: ['all'],
-    categories: ['gym']
-    // https://www.thirdspacemvmt.com/queer-strength 
-    // What: strength class (45 minutes)
+    categories: ['gym'],
+    accessibilityNotes: ['be prepared for an indoor or outdoor class'],
+    website: "https://www.thirdspacemvmt.com/queer-strength",
+    description: "strength class (45 minutes)",
+  
     // When:  Variable - https://www.thirdspacemvmt.com/schedule
     // Where: 721 Kings road
     // Who: members of the LGBTQIA2S+ community and their allies
     // Level of play: No experience required
     // Cost: $5/session, contact them if cost is a barrier 
-    // Accessibility notes: be prepared for an indoor or outdoor class.
   },
   {
     name: "Queer Yoga",
     primarySport: "yoga",
     id: '7',
     skillLevels: [],
-    categories: ['studio']
-
-// https://www.danie.gay/ 
-// What: yoga classes (1 hour). Drop-in
+    categories: ['studio'],
+    accessibilityNotes: [],
+    website: "https://www.danie.gay/",
+    description: "yoga classes (1 hour). Drop-in",
 // When: Variable - https://www.danie.gay/
 // Where: Variable - https://www.danie.gay/
 // Cost: Free or by donation
@@ -220,8 +228,9 @@ const sports: ContactMutation[] = [
     id: '8',
     skillLevels: [],
     categories: ['fitness'],
+    accessibilityNotes: [],
+    description: "running club for Two-Spirit and queer people",
 
-// What: running club for Two-Spirit and queer people
 // When: Mondays at 6pm 
 // Where: variable, check Strava page at the link on IG
 // Who: Two-Spirit and queer people
@@ -232,10 +241,11 @@ const sports: ContactMutation[] = [
     primarySport: "walking",
     id: '9',
     skillLevels: [],
-    categories: ['fitness']
+    categories: ['fitness'],
+    accessibilityNotes: [],
+    website: "https://primetimersvictoria.weebly.com/calendar.html",
+    description: "Social organization for gay, bi, and trans men. Includes walking groups and other physical activities",
 
-// https://primetimersvictoria.weebly.com/calendar.html 
-// What: Social organization for gay, bi, and trans men. Includes walking groups and other physical activities
 // When: Variable - https://primetimersvictoria.weebly.com/about.html 
 // Cost: $30 yearly membership 
   },
@@ -246,8 +256,9 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '10',
     skillLevels: [],
-    categories: []
-// What: Queer led organization aimed at minimizing barriers to accessing and engaging in the outdoors industry. Has included a used gear library, workshops, and outdoor events.
+    categories: [],
+    accessibilityNotes: [],
+    description: "Queer led organization aimed at minimizing barriers to accessing and engaging in the outdoors industry. Has included a used gear library, workshops, and outdoor events.",
 // When: Variable
 // Where: Variable
 // Who: People who have historically been excluded from the outdoors industry
@@ -260,9 +271,9 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '11',
     skillLevels: [],
-    categories: []
-//     
-// What: Bird club 
+    categories: [],
+    accessibilityNotes: [],
+    description: "Bird club",
 // When: Last weekend of every month, check instagram page for details
 // Where: Variable
 // Who: queers and their allies
@@ -273,32 +284,28 @@ const sports: ContactMutation[] = [
     instagram: "",
     primarySport: 'unknown',
     id: '12',
-    skillLevels: [],
-    categories: []
-//     
+    skillLevels: ['all'],
+    categories: [],
+    accessibilityNotes: ['Detailed accessibility on their page'],
+    description: "Queer adult forest play community",
 // https://www.facebook.com/people/Big-Kids/100092947794590/ 
-// What: Queer adult forest play community
 // When: Variable. Registration required. 
 // Where: Variable
 // Who: Queer adults 
-// Level of play: To your own level 
 // Cost: $25-55 per session, 15% off if you register for all 4 sessions. Compassionate pricing options, no one turned away for lack of funds. 
-// Accessibility: Detailed accessibility on their page 
   },
   {
     name: "Out in the Woods Vancouver Island",
     instagram: "https://www.instagram.com/outinthewoodsvi/",
     primarySport: 'unknown',
     id: '13',
-    skillLevels: [],
-    categories: []
-//     
-//  
-// What: Queer hiking group
+    skillLevels: ['varies'],
+    categories: [],
+    accessibilityNotes: [],
+    description: "Queer hiking group",
 // When: Variable
 // Where: Variable
 // Who: All genders
-// Level of play: Variable 
 // Cost: Free
   },
   // Other Sports
@@ -308,12 +315,11 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '14',
     skillLevels: [],
-    categories: []
-    // 
-    //  
-    // What: Queer climbing events and classes, as well as online community 
-    // When: Variable - https://www.instagram.com/goats.climb/
-    // Where: Variable (mostly Boulderhouse Langford and Victoria, and Crag X) https://www.instagram.com/goats.climb/ 
+    categories: [],
+    accessibilityNotes: [],
+    description: "Queer climbing events and classes, as well as online community",
+  
+    // Where: Variable (mostly Boulderhouse Langford and Victoria, and Crag X)
     // Who: All are welcome
     // Level of play: All levels
     // Cost: Drop-ins are typically the cost of admission to the climbing gym. Sometimes offer subsidized lessons. 
@@ -324,9 +330,10 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '15',
     skillLevels: [],
-    categories: []
-// https://fernwoodnrg.ca/events/queer-boxing/
-// What: drop-in boxing fitness 
+    categories: [],
+    accessibilityNotes: [],
+    website: "https://fernwoodnrg.ca/events/queer-boxing/",
+    description: "drop-in boxing fitness",
 // When: Tuesdays 7-8 PM
 // Where: Fernwood community centre 
 // Who: people who identify as queer 
@@ -338,9 +345,10 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '16',
     skillLevels: ['all'],
-    categories: []
+    categories: [],
+    accessibilityNotes: [],
+    description: "Facebook group sharing queer swims in Victoria",
 // https://www.facebook.com/groups/1577031539215113/ 
-// What: Facebook group sharing queer swims in Victoria
 // When: Variable
 // Where: Variable, often Gordon Head Pool and Crystal Pool
 // Who: Typically trans, 2‐spirit and non‐binary community members and their friends and family
@@ -351,10 +359,10 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '17',
     skillLevels: [],
-    categories: []
-//     
+    categories: [],
+    accessibilityNotes: [],
+    description: "Private facebook group for queer boxing ",
 // https://www.facebook.com/groups/718429439274028 
-// What: Private facebook group for queer boxing 
 // Please add more info if you are a member of this group!
   },
   {
@@ -363,10 +371,10 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '18',
     skillLevels: [],
-    categories: []
-//     
-// https://www.viqaa.info/
-// What: Advocacy and grants to support 2SLGBTQIA+ youth
+    categories: [],
+    accessibilityNotes: [],
+    website: 'https://www.viqaa.info/',
+    description: "Advocacy and grants to support 2SLGBTQIA+ youth",
   },
   {
     name: "UVIC Air",
@@ -374,10 +382,10 @@ const sports: ContactMutation[] = [
     primarySport: 'unknown',
     id: '19',
     skillLevels: ['all'],
-    categories: []
-//     
-// https://vikesrec.ca/inclusion-accessibility/air
-// What: inclusive recreation events (eg climbing, dance, swimming) in collaboration with the 5 UVSS advocacy groups (including GEM and Pride)
+    categories: [], 
+    accessibilityNotes: [],
+    website: "https://vikesrec.ca/inclusion-accessibility/air",
+    description: "Inclusive recreation events (eg climbing, dance, swimming) in collaboration with the 5 UVSS advocacy groups (including GEM and Pride)",
 // When: variable 
 // Who: UVic students/community members served by the UVSS advocacy groups 
 // Cost: Often free to uvic students 

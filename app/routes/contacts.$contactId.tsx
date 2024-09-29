@@ -38,17 +38,34 @@ export default function Contact() {
         />
       </div> */}
       <h1>
-        {sport.name}{" "}
-        {sport.instagram && (
-          <a target="_blank" href={sport.instagram}>
-            - insta
-          </a>
-        )}
+        {sport.name}
         {/* <Favorite contact={contact} /> */}
       </h1>
+      <p>Description: {sport.description}</p>
       <p>Sport: {sport.primarySport}</p>
+      {sport.instagram && (
+        <a target="_blank" href={sport.instagram}>
+          Instagram Link
+        </a>
+      )}
+      {sport.website && (
+        <a target="_blank" href={sport.website}>
+          Website Link
+        </a>
+      )}
       <p>Categories: {oxfordCommaList(sport.categories)}</p>
-      Skill Levels Welcome:{oxfordCommaList(sport.skillLevels)}
+      <p>Skill Levels Welcome:{oxfordCommaList(sport.skillLevels)}</p>
+
+      {sport.accessibilityNotes.length > 0 && (
+        <>
+          <p>Accessibility Notes:</p>
+          <ul>
+            {sport.accessibilityNotes.map((note) => {
+              return <li>{note}</li>;
+            })}
+          </ul>
+        </>
+      )}
       {/* {contact.twitter ? (
           <p>
             <a href={`https://twitter.com/${contact.twitter}`}>
