@@ -1,12 +1,11 @@
 import { json } from "@remix-run/node";
-import { Form, useLoaderData, useFetcher } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import { oxfordCommaList } from "../utils/oxfordCommaList";
 
-import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
-import type { FunctionComponent } from "react";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 
-import { getSport, updateContact, ContactRecord } from "../data";
+import { getSport } from "../data";
 
 // export const action = async ({ params, request }: ActionFunctionArgs) => {
 //   invariant(params.contactId, "Missing contactId param");
@@ -46,12 +45,12 @@ export default function Contact() {
       <p>Where: {sport.where}</p>
       <p>Sport: {sport.primarySport}</p>
       {sport.instagram && (
-        <a target="_blank" href={sport.instagram}>
+        <a target="_blank" rel="noreferrer" href={sport.instagram}>
           Instagram Link
         </a>
       )}
       {sport.website && (
-        <a target="_blank" href={sport.website}>
+        <a target="_blank" rel="noreferrer" href={sport.website}>
           Website Link
         </a>
       )}
@@ -63,7 +62,7 @@ export default function Contact() {
           <p>Accessibility Notes:</p>
           <ul>
             {sport.accessibilityNotes.map((note) => {
-              return <li>{note}</li>;
+              return <li key={note}>{note}</li>;
             })}
           </ul>
         </>
