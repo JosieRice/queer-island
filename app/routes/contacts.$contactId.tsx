@@ -1,70 +1,67 @@
 import { json } from "@remix-run/node";
 import { Form, useLoaderData, useFetcher } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import { oxfordCommaList } from "../utils/oxfordCommaList";
 
 import type { LoaderFunctionArgs, ActionFunctionArgs } from "@remix-run/node";
 import type { FunctionComponent } from "react";
 
-import { getContact, updateContact, ContactRecord } from "../data";
+import { getSport, updateContact, ContactRecord } from "../data";
 
-export const action = async ({ params, request }: ActionFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
-  const formData = await request.formData();
-  return updateContact(params.contactId, {
-    favorite: formData.get("favorite") === "true",
-  });
-};
+// export const action = async ({ params, request }: ActionFunctionArgs) => {
+//   invariant(params.contactId, "Missing contactId param");
+//   const formData = await request.formData();
+//   return updateContact(params.contactId, {
+//     favorite: formData.get("favorite") === "true",
+//   });
+// };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.contactId, "Missing contactId param");
-  const contact = await getContact(params.contactId);
-  if (!contact) {
+  const sport = await getSport(params.contactId);
+  if (!sport) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json({ contact });
+  return json({ sport });
 };
 
 export default function Contact() {
-  const { contact } = useLoaderData<typeof loader>();
+  const { sport } = useLoaderData<typeof loader>();
 
   return (
-    <div id="contact">
-      <div>
+    <div id="sport">
+      {/* <div>
         <img
-          alt={`${contact.first} ${contact.last} avatar`}
-          key={contact.avatar}
-          src={contact.avatar}
+          alt={`${sport.first} ${sport.last} avatar`}
+          key={sport.avatar}
+          src={sport.avatar}
         />
-      </div>
-
-      <div>
-        <h1>
-          {contact.first || contact.last ? (
-            <>
-              {contact.first} {contact.last}
-            </>
-          ) : (
-            <i>No Name</i>
-          )}{" "}
-          <Favorite contact={contact} />
-        </h1>
-
-        {contact.twitter ? (
+      </div> */}
+      <h1>
+        {sport.name}{" "}
+        {sport.instagram && (
+          <a target="_blank" href={sport.instagram}>
+            - insta
+          </a>
+        )}
+        {/* <Favorite contact={contact} /> */}
+      </h1>
+      <p>Sport: {sport.primarySport}</p>
+      <p>Categories: {oxfordCommaList(sport.categories)}</p>
+      Skill Levels Welcome:{oxfordCommaList(sport.skillLevels)}
+      {/* {contact.twitter ? (
           <p>
             <a href={`https://twitter.com/${contact.twitter}`}>
               {contact.twitter}
             </a>
           </p>
-        ) : null}
-
-        {contact.notes ? <p>{contact.notes}</p> : null}
-
-        <div>
-          <Form action="edit">
+        ) : null} */}
+      {/* {contact.notes ? <p>{contact.notes}</p> : null} */}
+      {/* <div> */}
+      {/* <Form action="edit">
             <button type="submit">Edit</button>
-          </Form>
-
-          <Form
+          </Form> */}
+      {/* <Form
             action="destroy"
             method="post"
             onSubmit={(event) => {
@@ -77,30 +74,29 @@ export default function Contact() {
             }}
           >
             <button type="submit">Delete</button>
-          </Form>
-        </div>
-      </div>
+          </Form> */}
+      {/* </div> */}
     </div>
   );
 }
 
-const Favorite: FunctionComponent<{
-  contact: Pick<ContactRecord, "favorite">;
-}> = ({ contact }) => {
-  const fetcher = useFetcher();
-  const favorite = fetcher.formData
-    ? fetcher.formData.get("favorite") === "true"
-    : contact.favorite;
+// const Favorite: FunctionComponent<{
+//   contact: Pick<ContactRecord, "favorite">;
+// }> = ({ contact }) => {
+//   const fetcher = useFetcher();
+//   const favorite = fetcher.formData
+//     ? fetcher.formData.get("favorite") === "true"
+//     : contact.favorite;
 
-  return (
-    <fetcher.Form method="post">
-      <button
-        aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-        name="favorite"
-        value={favorite ? "false" : "true"}
-      >
-        {favorite ? "★" : "☆"}
-      </button>
-    </fetcher.Form>
-  );
-};
+//   return (
+//     <fetcher.Form method="post">
+//       <button
+//         aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
+//         name="favorite"
+//         value={favorite ? "false" : "true"}
+//       >
+//         {favorite ? "★" : "☆"}
+//       </button>
+//     </fetcher.Form>
+//   );
+// };

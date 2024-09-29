@@ -13,7 +13,7 @@ import {
   useSubmit,
 } from "@remix-run/react";
 import appStylesHref from "./app.css?url";
-import { createEmptyContact, getContacts } from "./data";
+import { getSports } from "./data";
 import { useEffect } from "react";
 
 export const links: LinksFunction = () => [
@@ -23,17 +23,17 @@ export const links: LinksFunction = () => [
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
-  const contacts = await getContacts(q);
-  return json({ contacts, q });
+  const sports = await getSports(q);
+  return json({ sports, q });
 };
 
-export const action = async () => {
-  const contact = await createEmptyContact();
-  return redirect(`/contacts/${contact.id}/edit`);
-};
+// export const action = async () => {
+//   const contact = await createEmptyContact();
+//   return redirect(`/contacts/${contact.id}/edit`);
+// };
 
 export default function App() {
-  const { contacts, q } = useLoaderData<typeof loader>();
+  const { sports, q } = useLoaderData<typeof loader>();
   const navigation = useNavigation();
   const submit = useSubmit();
   const searching =
@@ -57,7 +57,7 @@ export default function App() {
       </head>
       <body>
         <div id="sidebar">
-          <h1>Remix Contacts</h1>
+          <h1>Queer Island Sports Society</h1>
           <div>
             <Form
               id="search-form"
@@ -80,36 +80,30 @@ export default function App() {
               />
               <div id="search-spinner" aria-hidden hidden={!searching} />
             </Form>
-            <Form method="post">
+            {/* <Form method="post">
               <button type="submit">New</button>
-            </Form>
+            </Form> */}
           </div>
           <nav>
-            {contacts.length ? (
+            {sports.length ? (
               <ul>
-                {contacts.map((contact) => (
-                  <li key={contact.id}>
+                {sports.map((sport) => (
+                  <li key={sport.id}>
                     <NavLink
                       className={({ isActive, isPending }) =>
                         isActive ? "active" : isPending ? "pending" : ""
                       }
-                      to={`contacts/${contact.id}`}
+                      to={`contacts/${sport.id}`}
                     >
-                      {contact.first || contact.last ? (
-                        <>
-                          {contact.first} {contact.last}
-                        </>
-                      ) : (
-                        <i>No Name</i>
-                      )}{" "}
-                      {contact.favorite ? <span>★</span> : null}
+                      {sport.name}
+                      {/* {sport.favourite ? <span>★</span> : null} */}
                     </NavLink>
                   </li>
                 ))}
               </ul>
             ) : (
               <p>
-                <i>No contacts</i>
+                <i>No sports</i>
               </p>
             )}
           </nav>

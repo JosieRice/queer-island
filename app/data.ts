@@ -1,316 +1,470 @@
-////////////////////////////////////////////////////////////////////////////////
-// 🛑 Nothing in here has anything to do with Remix, it's just a fake database
-////////////////////////////////////////////////////////////////////////////////
+/**
+ * 🛑 Our temporary fake database
+ */
 
 import { matchSorter } from "match-sorter";
-// @ts-expect-error - no types, but it's a tiny function
-import sortBy from "sort-by";
-import invariant from "tiny-invariant";
+// import invariant from "tiny-invariant";
+import { sortByName } from "./utils/sortByName";
+
+type Sport = "soccer" | "basketball" | "softball" | "cycling" | "skate boarding" | "fitness" | "yoga" | "running" | "walking"| "unknown";
+
+type SkillLevel = "all" | "varies";
+
+type Category = "ball sports" | "wheels" | "gym" | "studio" | "fitness";
 
 type ContactMutation = {
-  id?: string;
-  first?: string;
-  last?: string;
-  avatar?: string;
-  twitter?: string;
-  notes?: string;
-  favorite?: boolean;
+  id: string;
+  name: string;
+  primarySport: Sport;
+  instagram?: string;
+  // accessibilityNotes?: string[];
+  // okayToCheer?: boolean;
+  skillLevels: SkillLevel[];
+  categories: Category[];
 };
 
 export type ContactRecord = ContactMutation & {
-  id: string;
+  // id: string;
   createdAt: string;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// This is just a fake DB table. In a real app you'd be talking to a real db or
-// fetching from an existing API.
-const fakeContacts = {
+/**
+ * This is just a fake DB table. At some point we'll need a real db or
+ * fetching from an existing API.
+ */
+const sportsDB = {
   records: {} as Record<string, ContactRecord>,
 
   async getAll(): Promise<ContactRecord[]> {
-    return Object.keys(fakeContacts.records)
-      .map((key) => fakeContacts.records[key])
-      .sort(sortBy("-createdAt", "last"));
+    return Object.keys(sportsDB.records)
+      .map((key) => sportsDB.records[key])
+      .sort(sortByName);
   },
 
   async get(id: string): Promise<ContactRecord | null> {
-    return fakeContacts.records[id] || null;
+    return sportsDB.records[id] || null;
   },
 
   async create(values: ContactMutation): Promise<ContactRecord> {
     const id = values.id || Math.random().toString(36).substring(2, 9);
     const createdAt = new Date().toISOString();
-    const newContact = { id, createdAt, ...values };
-    fakeContacts.records[id] = newContact;
+    const newContact = { createdAt, ...values, id };
+    sportsDB.records[id] = newContact;
     return newContact;
   },
 
-  async set(id: string, values: ContactMutation): Promise<ContactRecord> {
-    const contact = await fakeContacts.get(id);
-    invariant(contact, `No contact found for ${id}`);
-    const updatedContact = { ...contact, ...values };
-    fakeContacts.records[id] = updatedContact;
-    return updatedContact;
-  },
+  // async set(id: string, values: ContactMutation): Promise<ContactRecord> {
+  //   const contact = await sportsDB.get(id);
+  //   invariant(contact, `No contact found for ${id}`);
+  //   const updatedContact = { ...contact, ...values };
+  //   sportsDB.records[id] = updatedContact;
+  //   return updatedContact;
+  // },
 
-  destroy(id: string): null {
-    delete fakeContacts.records[id];
-    return null;
-  },
+  // destroy(id: string): null {
+  //   delete sportsDB.records[id];
+  //   return null;
+  // },
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// Handful of helper functions to be called from route loaders and actions
-export async function getContacts(query?: string | null) {
+/**
+ * Handful of helper functions to be called from route loaders and actions
+ * @param query 
+ * @returns 
+ */
+export async function getSports(query?: string | null) {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  let contacts = await fakeContacts.getAll();
+  let sports = await sportsDB.getAll();
   if (query) {
-    contacts = matchSorter(contacts, query, {
-      keys: ["first", "last"],
+    sports = matchSorter(sports, query, {
+      keys: ["name", "primarySport"],
     });
   }
-  return contacts.sort(sortBy("last", "createdAt"));
+  return sports.sort(sortByName)
 }
 
-export async function createEmptyContact() {
-  const contact = await fakeContacts.create({});
-  return contact;
+// export async function createEmptyContact() {
+//   const contact = await sportsDB.create({});
+//   return contact;
+// }
+
+export async function getSport(id: string) {
+  return sportsDB.get(id);
 }
 
-export async function getContact(id: string) {
-  return fakeContacts.get(id);
-}
+// export async function updateContact(id: string, updates: ContactMutation) {
+//   const contact = await sportsDB.get(id);
+//   if (!contact) {
+//     throw new Error(`No contact found for ${id}`);
+//   }
+//   await sportsDB.set(id, { ...contact, ...updates });
+//   return contact;
+// }
 
-export async function updateContact(id: string, updates: ContactMutation) {
-  const contact = await fakeContacts.get(id);
-  if (!contact) {
-    throw new Error(`No contact found for ${id}`);
+// export async function deleteContact(id: string) {
+//   sportsDB.destroy(id);
+// }
+
+const sports: ContactMutation[] = [
+  {
+    name: "Queer Soccer",
+    primarySport: "soccer",
+    instagram: "https://www.instagram.com/queersoccervic/",
+    categories: ['ball sports'],
+    // what: "pick up soccer",
+    // when: "Every Saturday 2:30-4:30, all year. Drop-in. Message the instagram page to confirm, sometimes soccer is cancelled if there are not enough people planning to go.",
+    // where: "David Spencer field",
+    // who: "queer, dyke/lesbian, bi women, trans and non-binary adults",
+    skillLevels: ["all"],
+    // okayToCheer: true,
+    // cost: '0',
+    // accessibilityNotes: [
+    //   "Sidelines crew (non-playing) members welcome.",
+    //   "Ground at the field is somewhat uneven but flat.",
+    //   "Gendered bathrooms nearby",
+    //   "Street parking adjacent to the field"
+    // ],
+    id: "1",
+  },
+  {
+    name: "South Island Basketball",
+    primarySport: 'basketball',
+    instagram: "https://www.instagram.com/southislandbasketball?igsh=a3kxMTcxd3hhMXpx",
+// What: Drop-in basketball 
+// When: Tuesdays 7-9 PM
+// Where: Naden Athletic Centre
+// Who: Women, trans, and non-binary folx 16+
+// Level of play: All abilities
+// Cost: ~$6/session
+// Accessibility notes: Bring a form of ID, as you will be asked to enter Naden. 
+    categories: ['ball sports'],
+    id: '2',
+    skillLevels: ['all']
+  },
+  {
+    name: "The Gay Agenda",
+    primarySport: 'softball',
+// Tgavictoria@gmail.com
+// What: tGA is an inclusive recreational queer softball team that plays in a mixed gender league
+// When: Spring 2025 *depending on player interest* 
+// Where: Variable
+// Who: Queer identifying adults of all genders
+// Level of play: Recreational 
+// Cost: Variable with fundraising opportunities 
+// Accessibility notes: All skill levels welcome
+    categories: ['ball sports'],
+    id: '3',
+    skillLevels: []
+  },
+  {
+    name: "Victoria Pride Ride",
+    instagram: "https://www.instagram.com/vicprideride/",
+    primarySport: 'cycling',
+    categories: ['wheels'],
+// What: Bike riding events
+// When: Variable
+// Where: Variable
+// Who: lgbtqia2s+ & allies
+// Level of play: Variable. Rides are marked on a 3-level system
+// Cost: Free
+// Accessibility notes: All types of bike welcome. 
+    id: '4',
+    skillLevels: ['varies']
+  },
+  {
+    name: "Victoria Queer Skate",
+    instagram: "https://www.instagram.com/victoriaqueerskate?igsh=ZHdhaG1saXltN215",
+    primarySport: 'skate boarding',
+    categories: ['wheels'],
+    id: '5',
+    skillLevels: []
+
+// What: drop in skating events at skate parks
+// When: biweekly evenings (check IG for details)
+// Where: Topaz Park
+// Who: Queer and marginalized skaters 
+// Cost: Free
+  },
+  {
+    name: "Queer Strength",
+    primarySport: "fitness",
+    id: '6',
+    skillLevels: ['all'],
+    categories: ['gym']
+    // https://www.thirdspacemvmt.com/queer-strength 
+    // What: strength class (45 minutes)
+    // When:  Variable - https://www.thirdspacemvmt.com/schedule
+    // Where: 721 Kings road
+    // Who: members of the LGBTQIA2S+ community and their allies
+    // Level of play: No experience required
+    // Cost: $5/session, contact them if cost is a barrier 
+    // Accessibility notes: be prepared for an indoor or outdoor class.
+  },
+  {
+    name: "Queer Yoga",
+    primarySport: "yoga",
+    id: '7',
+    skillLevels: [],
+    categories: ['studio']
+
+// https://www.danie.gay/ 
+// What: yoga classes (1 hour). Drop-in
+// When: Variable - https://www.danie.gay/
+// Where: Variable - https://www.danie.gay/
+// Cost: Free or by donation
+  },
+  {
+    name: "Vic Queer Run Club",
+    instagram: "https://www.instagram.com/vicqueerrunclub?igsh=aW0xNXFzcml3aXU4",
+    primarySport: 'running',
+    id: '8',
+    skillLevels: [],
+    categories: ['fitness'],
+
+// What: running club for Two-Spirit and queer people
+// When: Mondays at 6pm 
+// Where: variable, check Strava page at the link on IG
+// Who: Two-Spirit and queer people
+// Cost: free
+  },
+  {
+    name: "Prime Timers Victoria",
+    primarySport: "walking",
+    id: '9',
+    skillLevels: [],
+    categories: ['fitness']
+
+// https://primetimersvictoria.weebly.com/calendar.html 
+// What: Social organization for gay, bi, and trans men. Includes walking groups and other physical activities
+// When: Variable - https://primetimersvictoria.weebly.com/about.html 
+// Cost: $30 yearly membership 
+  },
+  // Outdoors
+  {
+    name: "Open Outdoors",
+    instagram: "https://www.instagram.com/open.outdoors/",
+    primarySport: 'unknown',
+    id: '10',
+    skillLevels: [],
+    categories: []
+// What: Queer led organization aimed at minimizing barriers to accessing and engaging in the outdoors industry. Has included a used gear library, workshops, and outdoor events.
+// When: Variable
+// Where: Variable
+// Who: People who have historically been excluded from the outdoors industry
+// Cost: Typically free
+
+  },
+  {
+    name: "Queer Bird Club",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '11',
+    skillLevels: [],
+    categories: []
+//     
+// What: Bird club 
+// When: Last weekend of every month, check instagram page for details
+// Where: Variable
+// Who: queers and their allies
+// Cost: Free
+  },
+  {
+    name: "Big Kids Play",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '12',
+    skillLevels: [],
+    categories: []
+//     
+// https://www.facebook.com/people/Big-Kids/100092947794590/ 
+// What: Queer adult forest play community
+// When: Variable. Registration required. 
+// Where: Variable
+// Who: Queer adults 
+// Level of play: To your own level 
+// Cost: $25-55 per session, 15% off if you register for all 4 sessions. Compassionate pricing options, no one turned away for lack of funds. 
+// Accessibility: Detailed accessibility on their page 
+  },
+  {
+    name: "Out in the Woods Vancouver Island",
+    instagram: "https://www.instagram.com/outinthewoodsvi/",
+    primarySport: 'unknown',
+    id: '13',
+    skillLevels: [],
+    categories: []
+//     
+//  
+// What: Queer hiking group
+// When: Variable
+// Where: Variable
+// Who: All genders
+// Level of play: Variable 
+// Cost: Free
+  },
+  // Other Sports
+  {
+    name: "GOATS Climbing",
+    instagram: "https://www.instagram.com/goats.climb/",
+    primarySport: 'unknown',
+    id: '14',
+    skillLevels: [],
+    categories: []
+    // 
+    //  
+    // What: Queer climbing events and classes, as well as online community 
+    // When: Variable - https://www.instagram.com/goats.climb/
+    // Where: Variable (mostly Boulderhouse Langford and Victoria, and Crag X) https://www.instagram.com/goats.climb/ 
+    // Who: All are welcome
+    // Level of play: All levels
+    // Cost: Drop-ins are typically the cost of admission to the climbing gym. Sometimes offer subsidized lessons. 
+  },
+  {
+    name: "Queer Boxing",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '15',
+    skillLevels: [],
+    categories: []
+// https://fernwoodnrg.ca/events/queer-boxing/
+// What: drop-in boxing fitness 
+// When: Tuesdays 7-8 PM
+// Where: Fernwood community centre 
+// Who: people who identify as queer 
+// Cost: by donation 
+  },
+  {
+    name: "Queers Get Wet",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '16',
+    skillLevels: ['all'],
+    categories: []
+// https://www.facebook.com/groups/1577031539215113/ 
+// What: Facebook group sharing queer swims in Victoria
+// When: Variable
+// Where: Variable, often Gordon Head Pool and Crystal Pool
+// Who: Typically trans, 2‐spirit and non‐binary community members and their friends and family
+  },
+  {
+    name: "Queer Boxing Victoria BC",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '17',
+    skillLevels: [],
+    categories: []
+//     
+// https://www.facebook.com/groups/718429439274028 
+// What: Private facebook group for queer boxing 
+// Please add more info if you are a member of this group!
+  },
+  {
+    name: "Vancouver Island Queer Athletics Association",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '18',
+    skillLevels: [],
+    categories: []
+//     
+// https://www.viqaa.info/
+// What: Advocacy and grants to support 2SLGBTQIA+ youth
+  },
+  {
+    name: "UVIC Air",
+    instagram: "",
+    primarySport: 'unknown',
+    id: '19',
+    skillLevels: ['all'],
+    categories: []
+//     
+// https://vikesrec.ca/inclusion-accessibility/air
+// What: inclusive recreation events (eg climbing, dance, swimming) in collaboration with the 5 UVSS advocacy groups (including GEM and Pride)
+// When: variable 
+// Who: UVic students/community members served by the UVSS advocacy groups 
+// Cost: Often free to uvic students 
   }
-  await fakeContacts.set(id, { ...contact, ...updates });
-  return contact;
-}
+]
 
-export async function deleteContact(id: string) {
-  fakeContacts.destroy(id);
-}
-
-[
-  {
-    avatar:
-      "https://sessionize.com/image/124e-400o400o2-wHVdAuNaxi8KJrgtN3ZKci.jpg",
-    first: "Shruti",
-    last: "Kapoor",
-    twitter: "@shrutikapoor08",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/1940-400o400o2-Enh9dnYmrLYhJSTTPSw3MH.jpg",
-    first: "Glenn",
-    last: "Reyes",
-    twitter: "@glnnrys",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/9273-400o400o2-3tyrUE3HjsCHJLU5aUJCja.jpg",
-    first: "Ryan",
-    last: "Florence",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/d14d-400o400o2-pyB229HyFPCnUcZhHf3kWS.png",
-    first: "Oscar",
-    last: "Newman",
-    twitter: "@__oscarnewman",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/fd45-400o400o2-fw91uCdGU9hFP334dnyVCr.jpg",
-    first: "Michael",
-    last: "Jackson",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/b07e-400o400o2-KgNRF3S9sD5ZR4UsG7hG4g.jpg",
-    first: "Christopher",
-    last: "Chedeau",
-    twitter: "@Vjeux",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/262f-400o400o2-UBPQueK3fayaCmsyUc1Ljf.jpg",
-    first: "Cameron",
-    last: "Matheson",
-    twitter: "@cmatheson",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/820b-400o400o2-Ja1KDrBAu5NzYTPLSC3GW8.jpg",
-    first: "Brooks",
-    last: "Lybrand",
-    twitter: "@BrooksLybrand",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/df38-400o400o2-JwbChVUj6V7DwZMc9vJEHc.jpg",
-    first: "Alex",
-    last: "Anderson",
-    twitter: "@ralex1993",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/5578-400o400o2-BMT43t5kd2U1XstaNnM6Ax.jpg",
-    first: "Kent C.",
-    last: "Dodds",
-    twitter: "@kentcdodds",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/c9d5-400o400o2-Sri5qnQmscaJXVB8m3VBgf.jpg",
-    first: "Nevi",
-    last: "Shah",
-    twitter: "@nevikashah",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/2694-400o400o2-MYYTsnszbLKTzyqJV17w2q.png",
-    first: "Andrew",
-    last: "Petersen",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/907a-400o400o2-9TM2CCmvrw6ttmJiTw4Lz8.jpg",
-    first: "Scott",
-    last: "Smerchek",
-    twitter: "@smerchek",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/08be-400o400o2-WtYGFFR1ZUJHL9tKyVBNPV.jpg",
-    first: "Giovanni",
-    last: "Benussi",
-    twitter: "@giovannibenussi",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/f814-400o400o2-n2ua5nM9qwZA2hiGdr1T7N.jpg",
-    first: "Igor",
-    last: "Minar",
-    twitter: "@IgorMinar",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/fb82-400o400o2-LbvwhTVMrYLDdN3z4iEFMp.jpeg",
-    first: "Brandon",
-    last: "Kish",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/fcda-400o400o2-XiYRtKK5Dvng5AeyC8PiUA.png",
-    first: "Arisa",
-    last: "Fukuzaki",
-    twitter: "@arisa_dev",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/c8c3-400o400o2-PR5UsgApAVEADZRixV4H8e.jpeg",
-    first: "Alexandra",
-    last: "Spalato",
-    twitter: "@alexadark",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/7594-400o400o2-hWtdCjbdFdLgE2vEXBJtyo.jpg",
-    first: "Cat",
-    last: "Johnson",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/5636-400o400o2-TWgi8vELMFoB3hB9uPw62d.jpg",
-    first: "Ashley",
-    last: "Narcisse",
-    twitter: "@_darkfadr",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/6aeb-400o400o2-Q5tAiuzKGgzSje9ZsK3Yu5.JPG",
-    first: "Edmund",
-    last: "Hung",
-    twitter: "@_edmundhung",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/30f1-400o400o2-wJBdJ6sFayjKmJycYKoHSe.jpg",
-    first: "Clifford",
-    last: "Fajardo",
-    twitter: "@cliffordfajard0",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/6faa-400o400o2-amseBRDkdg7wSK5tjsFDiG.jpg",
-    first: "Erick",
-    last: "Tamayo",
-    twitter: "@ericktamayo",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/feba-400o400o2-R4GE7eqegJNFf3cQ567obs.jpg",
-    first: "Paul",
-    last: "Bratslavsky",
-    twitter: "@codingthirty",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/c315-400o400o2-spjM5A6VVfVNnQsuwvX3DY.jpg",
-    first: "Pedro",
-    last: "Cattori",
-    twitter: "@pcattori",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/eec1-400o400o2-HkvWKLFqecmFxLwqR9KMRw.jpg",
-    first: "Andre",
-    last: "Landgraf",
-    twitter: "@AndreLandgraf94",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/c73a-400o400o2-4MTaTq6ftC15hqwtqUJmTC.jpg",
-    first: "Monica",
-    last: "Powell",
-    twitter: "@indigitalcolor",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/cef7-400o400o2-KBZUydbjfkfGACQmjbHEvX.jpeg",
-    first: "Brian",
-    last: "Lee",
-    twitter: "@brian_dlee",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/f83b-400o400o2-Pyw3chmeHMxGsNoj3nQmWU.jpg",
-    first: "Sean",
-    last: "McQuaid",
-    twitter: "@SeanMcQuaidCode",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/a9fc-400o400o2-JHBnWZRoxp7QX74Hdac7AZ.jpg",
-    first: "Shane",
-    last: "Walker",
-    twitter: "@swalker326",
-  },
-  {
-    avatar:
-      "https://sessionize.com/image/6644-400o400o2-aHnGHb5Pdu3D32MbfrnQbj.jpg",
-    first: "Jon",
-    last: "Jensen",
-    twitter: "@jenseng",
-  },
-].forEach((contact) => {
-  fakeContacts.create({
-    ...contact,
-    id: `${contact.first.toLowerCase()}-${contact.last.toLocaleLowerCase()}`,
+sports.forEach((sport) => {
+  sportsDB.create({
+    ...sport,
+    id: sport.id
   });
 });
+
+
+// Still to add
+
+// Sports not specifically geared towards queer population, but with active inclusion and community endorsement 
+// Power to Be
+// https://powertobe.ca/
+// What: Accessible outdoor recreation programming
+// When: Variable
+// Where: Variable
+// Who: Youth, families, and adults facing cognitive, physical, financial, and/or social barriers
+// Cost: ~$15/session with bursaries available 
+
+// Island Circus Space
+// https://www.islandcircusspace.com/ 
+// What: Circus classes
+// When: Variable
+// Where: 3-625 Hillside
+// Who: Everyone
+// Level of play: Variable
+// Cost: Variable 
+
+// Eves of Destruction
+// https://eod-rollerderby.squarespace.com/about-us
+// What: Roller derby
+// When: Variable
+// Where: Archie Browning
+
+// Found Off the Grid
+// https://www.instagram.com/foundoffthegrid/ 
+// What: UVic club organizing outdoor and recreation activities (e.g., climbing and hikes) and offering a free gear library
+// When: Variable
+// Where: Variable
+// Who: Everyone
+// Cost: Free
+
+// BOOBS (Babes On and Off Boards)
+// https://www.instagram.com/babes.on.and.off.boards/ 
+// What: Skateboard meet-ups
+// When: Variable
+// Where: Variable
+// Cost: Free
+// Level of play: all
+// Who: All
+
+// Archive - Sport events that have finished (please let us know if they’re back on!)
+// Pride on the Water
+// https://www.instagram.com/gorgenarrows?igsh=MTVydTRmMTlxbG13cQ==
+// What: 8 week rowing program 
+// When: Tuesdays 6-8 from June 18 to august 6. Drop-in, but must register 
+// Where: 105-2940 Jutland road (and the Gorge)
+// Who: 18+
+// Level of play: no experience necessary. Must be comfortable being submerged in water.
+// Cost: $53.25 if not a member 
+
+// WYLD 2sLGBTQIA+ and Allied Teens Backpacking Camp
+// https://strathconaparklodge.com/youth-programs/wyld-expeditions-camps/?fbclid=IwZXh0bgNhZW0CMTAAAR3X0kVYrsWIS8kAmhgiZ3pR5rC--8i8uqUh_iJ2up73z6XyGkzA_EUqZIQ_aem_ZmFrZWR1bW15MTZieXRlcw
+// What: 5-day backpacking camp for youth
+// When: August 19-23 2024
+// Where: Strathcona Park Lodge
+// Who: 2SLGBTQIA+ teens and allies (age 14-17)
+// Cost: $1160
+
+// Summer 2024 Outdoor Hoops
+// https://www.instagram.com/southislandbasketball?igsh=a3kxMTcxd3hhMXpx
+// What: Pick-up basketball
+// When: Select Sundays 5:30-7:30 PM, May-August. Drop-in
+// Where: Crystal Pool outdoor courts
+// Who: 1st Sunday of each month is for queer individuals, 3rd and 5th Sunday of each month is for all women, trans, and non-binary individuals
+// Cost: $2-5/session, if cost is a barrier you are still encouraged to come without paying 
+// Accessibility notes: Also encouraging a cheering section on the benches. 
+
+
+
+
+
+
+
