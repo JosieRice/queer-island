@@ -42,6 +42,8 @@ export default function Contact() {
         {/* <Favorite contact={contact} /> */}
       </h1>
       <p>Description: {sport.description}</p>
+      <p>When: {sport.when}</p>
+      <p>Where: {sport.where}</p>
       <p>Sport: {sport.primarySport}</p>
       {sport.instagram && (
         <a target="_blank" href={sport.instagram}>
