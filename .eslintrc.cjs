@@ -26,13 +26,10 @@ module.exports = {
     plugins: ["perfectionist"],
     rules: {
         "perfectionist/sort-imports": "error",
-        "perfectionist/sort-objects": [
-            "error",
-            {
-                type: "alphabetical",
-            },
-        ],
+        "perfectionist/sort-objects": ["error"],
         "perfectionist/sort-interfaces": ["error"],
+        "perfectionist/sort-object-types": ["error"],
+        "perfectionist/sort-union-types": ["error"],
     },
 
     overrides: [

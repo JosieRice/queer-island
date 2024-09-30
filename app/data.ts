@@ -7,34 +7,33 @@ import { matchSorter } from "match-sorter";
 import { sortByName } from "./utils/sortByName";
 
 type Sport =
-    | "soccer"
     | "basketball"
-    | "softball"
     | "cycling"
-    | "skate boarding"
     | "fitness"
-    | "yoga"
     | "running"
+    | "skate boarding"
+    | "soccer"
+    | "softball"
+    | "unknown"
     | "walking"
-    | "unknown";
+    | "yoga";
 
 type SkillLevel = "all" | "varies";
 
-type Category = "ball sports" | "wheels" | "gym" | "studio" | "fitness";
+type Category = "ball sports" | "fitness" | "gym" | "studio" | "wheels";
 
 type ContactMutation = {
+    accessibilityNotes: string[];
+    categories: Category[];
+    description: string;
     id: string;
+    instagram?: string;
     name: string;
     primarySport: Sport;
-    instagram?: string;
+    skillLevels: SkillLevel[];
     website?: string;
-    accessibilityNotes: string[];
-    description: string;
     when: string;
     where: string;
-    // okayToCheer?: boolean;
-    skillLevels: SkillLevel[];
-    categories: Category[];
 };
 
 export type ContactRecord = ContactMutation & {
@@ -86,7 +85,7 @@ const sportsDB = {
  * @param query
  * @returns
  */
-export async function getSports(query?: string | null) {
+export async function getSports(query?: null | string) {
     await new Promise((resolve) => setTimeout(resolve, 500));
     let sports = await sportsDB.getAll();
     if (query) {
@@ -121,7 +120,6 @@ export async function getSport(id: string) {
 
 const sports: ContactMutation[] = [
     {
-        // okayToCheer: true,
         // cost: '0',
         accessibilityNotes: [
             "Sidelines crew (non-playing) members welcome.",
