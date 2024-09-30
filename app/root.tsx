@@ -29,11 +29,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return json({ q, sports });
 };
 
-// export const action = async () => {
-//   const contact = await createEmptyContact();
-//   return redirect(`/contacts/${contact.id}/edit`);
-// };
-
 export default function App() {
     const { q, sports } = useLoaderData<typeof loader>();
     const navigation = useNavigation();
@@ -89,9 +84,6 @@ export default function App() {
                                 hidden={!searching}
                             />
                         </Form>
-                        {/* <Form method="post">
-              <button type="submit">New</button>
-            </Form> */}
                     </div>
                     <nav>
                         {sports.length ? (
@@ -112,7 +104,6 @@ export default function App() {
                                             to={`sports/${sport.id}`}
                                         >
                                             {sport.name}
-                                            {/* {sport.favourite ? <span>★</span> : null} */}
                                         </NavLink>
                                     </li>
                                 ))}

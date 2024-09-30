@@ -3,7 +3,7 @@
  */
 
 import { matchSorter } from "match-sorter";
-// import invariant from "tiny-invariant";
+
 import { sortByName } from "./utils/sortByName";
 
 type Sport =
@@ -38,6 +38,8 @@ type ContactMutation = {
     categories: Category[];
     cost: string;
     description: string;
+    email?: string;
+    facebook?: string;
     id: string;
     instagram?: string;
     name: string;
@@ -78,19 +80,6 @@ const sportsDB = {
     },
 
     records: {} as Record<string, ContactRecord>,
-
-    // async set(id: string, values: ContactMutation): Promise<ContactRecord> {
-    //   const contact = await sportsDB.get(id);
-    //   invariant(contact, `No contact found for ${id}`);
-    //   const updatedContact = { ...contact, ...values };
-    //   sportsDB.records[id] = updatedContact;
-    //   return updatedContact;
-    // },
-
-    // destroy(id: string): null {
-    //   delete sportsDB.records[id];
-    //   return null;
-    // },
 };
 
 /**
@@ -109,27 +98,9 @@ export async function getSports(query?: null | string) {
     return sports.sort(sortByName);
 }
 
-// export async function createEmptyContact() {
-//   const contact = await sportsDB.create({});
-//   return contact;
-// }
-
 export async function getSport(id: string) {
     return sportsDB.get(id);
 }
-
-// export async function updateContact(id: string, updates: ContactMutation) {
-//   const contact = await sportsDB.get(id);
-//   if (!contact) {
-//     throw new Error(`No contact found for ${id}`);
-//   }
-//   await sportsDB.set(id, { ...contact, ...updates });
-//   return contact;
-// }
-
-// export async function deleteContact(id: string) {
-//   sportsDB.destroy(id);
-// }
 
 const sports: ContactMutation[] = [
     {
@@ -175,11 +146,11 @@ const sports: ContactMutation[] = [
         cost: "Variable with fundraising opportunities",
         description:
             "tGA is an inclusive recreational queer softball team that plays in a mixed gender league",
+        email: "tgavictoria@gmail.com",
         id: "3",
         name: "The Gay Agenda",
         primarySport: "softball",
         skillLevels: ["recreational", "all"],
-        // Tgavictoria@gmail.com
         when: "Spring 2025 *depending on player interest* ",
         where: "Variable",
         who: "Queer identifying adults of all genders",
@@ -192,7 +163,6 @@ const sports: ContactMutation[] = [
         categories: ["wheels"],
         cost: "Free",
         description: "Bike riding events",
-
         id: "4",
         instagram: "https://www.instagram.com/vicprideride/",
         name: "Victoria Pride Ride",
@@ -256,7 +226,6 @@ const sports: ContactMutation[] = [
         name: "Vic Queer Run Club",
         primarySport: "running",
         skillLevels: [],
-
         when: "Mondays at 6pm",
         where: "variable, check Strava page at the link on IG",
         who: "Two-Spirit and queer people",
@@ -310,12 +279,12 @@ const sports: ContactMutation[] = [
         categories: ["outdoors"],
         cost: "$25-55 per session, 15% off if you register for all 4 sessions. Compassionate pricing options, no one turned away for lack of funds.",
         description: "Queer adult forest play community",
+        facebook: "https://www.facebook.com/people/Big-Kids/100092947794590/",
         id: "12",
         instagram: "",
         name: "Big Kids Play",
         primarySport: "unknown",
         skillLevels: ["all"],
-        // https://www.facebook.com/people/Big-Kids/100092947794590/
         when: "Variable. Registration required.",
         where: "Variable",
         who: "Queer adults",
@@ -369,12 +338,12 @@ const sports: ContactMutation[] = [
         categories: ["swimming"],
         cost: "unknown",
         description: "Facebook group sharing queer swims in Victoria",
+        facebook: "https://www.facebook.com/groups/1577031539215113/",
         id: "16",
         instagram: "",
         name: "Queers Get Wet",
         primarySport: "unknown",
         skillLevels: ["all"],
-        // https://www.facebook.com/groups/1577031539215113/
         when: "Variable",
         where: "Variable, often Gordon Head Pool and Crystal Pool",
         who: "Typically trans, 2‐spirit and non‐binary community members and their friends and family",
@@ -384,6 +353,7 @@ const sports: ContactMutation[] = [
         categories: ["martial arts"],
         cost: "unknown",
         description: "Private facebook group for queer boxing ",
+        facebook: "https://www.facebook.com/groups/718429439274028",
         id: "17",
         instagram: "",
         name: "Queer Boxing Victoria BC",
@@ -392,7 +362,6 @@ const sports: ContactMutation[] = [
         when: "unknown",
         where: "unknown",
         who: "unknown",
-        // https://www.facebook.com/groups/718429439274028
     },
     {
         accessibilityNotes: [],
