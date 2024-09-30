@@ -50,8 +50,8 @@ type ContactMutation = {
 };
 
 export type ContactRecord = ContactMutation & {
-    // id: string;
     createdAt: string;
+    id: string;
 };
 
 /**

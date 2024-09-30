@@ -40,10 +40,43 @@ export default function Contact() {
                 {sport.name}
                 {/* <Favorite contact={contact} /> */}
             </h1>
-            <p>Description: {sport.description}</p>
-            <p>When: {sport.when}</p>
-            <p>Where: {sport.where}</p>
-            <p>Sport: {sport.primarySport}</p>
+            <p>
+                <strong>Description:</strong> {sport.description}
+            </p>
+            <p>
+                <strong>Who:</strong> {sport.who}
+            </p>
+            <p>
+                <strong>When:</strong> {sport.when}
+            </p>
+            <p>
+                <strong>Where:</strong> {sport.where}
+            </p>
+            <p>
+                <strong>Sport:</strong> {sport.primarySport}
+            </p>
+            <p>
+                <strong>Cost:</strong> {sport.cost}
+            </p>
+            <p>
+                <strong>Categories:</strong> {oxfordCommaList(sport.categories)}
+            </p>
+            <p>
+                <strong>Skill Levels Welcome:</strong>{" "}
+                {oxfordCommaList(sport.skillLevels)}
+            </p>
+            {sport.accessibilityNotes.length > 0 && (
+                <>
+                    <p>
+                        <strong>Accessibility Notes:</strong>{" "}
+                    </p>
+                    <ul>
+                        {sport.accessibilityNotes.map((note) => {
+                            return <li key={note}>{note}</li>;
+                        })}
+                    </ul>
+                </>
+            )}
             {sport.instagram && (
                 <a target="_blank" rel="noreferrer" href={sport.instagram}>
                     Instagram Link
@@ -54,19 +87,7 @@ export default function Contact() {
                     Website Link
                 </a>
             )}
-            <p>Categories: {oxfordCommaList(sport.categories)}</p>
-            <p>Skill Levels Welcome:{oxfordCommaList(sport.skillLevels)}</p>
 
-            {sport.accessibilityNotes.length > 0 && (
-                <>
-                    <p>Accessibility Notes:</p>
-                    <ul>
-                        {sport.accessibilityNotes.map((note) => {
-                            return <li key={note}>{note}</li>;
-                        })}
-                    </ul>
-                </>
-            )}
             {/* {contact.twitter ? (
           <p>
             <a href={`https://twitter.com/${contact.twitter}`}>
