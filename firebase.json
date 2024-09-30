@@ -1,30 +1,30 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "hosting": {
-    "public": "public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-  },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "functions": {
-      "port": 5001
-    },
     "database": {
-      "port": 9000
+        "rules": "database.rules.json"
     },
     "hosting": {
-      "port": 5000
+        "public": "public",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
     },
-    "dataconnect": {
-      "port": 9399
-    },
-    "ui": {
-      "enabled": true
-    },
-    "singleProjectMode": true
-  }
+    "emulators": {
+        "auth": {
+            "port": 9099
+        },
+        "functions": {
+            "port": 5001
+        },
+        "database": {
+            "port": 9000
+        },
+        "hosting": {
+            "port": 5000
+        },
+        "dataconnect": {
+            "port": 9399
+        },
+        "ui": {
+            "enabled": true
+        },
+        "singleProjectMode": true
+    }
 }

@@ -16,70 +16,70 @@ import { getSport } from "../data";
 // };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  invariant(params.contactId, "Missing contactId param");
-  const sport = await getSport(params.contactId);
-  if (!sport) {
-    throw new Response("Not Found", { status: 404 });
-  }
-  return json({ sport });
+    invariant(params.contactId, "Missing contactId param");
+    const sport = await getSport(params.contactId);
+    if (!sport) {
+        throw new Response("Not Found", { status: 404 });
+    }
+    return json({ sport });
 };
 
 export default function Contact() {
-  const { sport } = useLoaderData<typeof loader>();
+    const { sport } = useLoaderData<typeof loader>();
 
-  return (
-    <div id="sport">
-      {/* <div>
+    return (
+        <div id="sport">
+            {/* <div>
         <img
           alt={`${sport.first} ${sport.last} avatar`}
           key={sport.avatar}
           src={sport.avatar}
         />
       </div> */}
-      <h1>
-        {sport.name}
-        {/* <Favorite contact={contact} /> */}
-      </h1>
-      <p>Description: {sport.description}</p>
-      <p>When: {sport.when}</p>
-      <p>Where: {sport.where}</p>
-      <p>Sport: {sport.primarySport}</p>
-      {sport.instagram && (
-        <a target="_blank" rel="noreferrer" href={sport.instagram}>
-          Instagram Link
-        </a>
-      )}
-      {sport.website && (
-        <a target="_blank" rel="noreferrer" href={sport.website}>
-          Website Link
-        </a>
-      )}
-      <p>Categories: {oxfordCommaList(sport.categories)}</p>
-      <p>Skill Levels Welcome:{oxfordCommaList(sport.skillLevels)}</p>
+            <h1>
+                {sport.name}
+                {/* <Favorite contact={contact} /> */}
+            </h1>
+            <p>Description: {sport.description}</p>
+            <p>When: {sport.when}</p>
+            <p>Where: {sport.where}</p>
+            <p>Sport: {sport.primarySport}</p>
+            {sport.instagram && (
+                <a target="_blank" rel="noreferrer" href={sport.instagram}>
+                    Instagram Link
+                </a>
+            )}
+            {sport.website && (
+                <a target="_blank" rel="noreferrer" href={sport.website}>
+                    Website Link
+                </a>
+            )}
+            <p>Categories: {oxfordCommaList(sport.categories)}</p>
+            <p>Skill Levels Welcome:{oxfordCommaList(sport.skillLevels)}</p>
 
-      {sport.accessibilityNotes.length > 0 && (
-        <>
-          <p>Accessibility Notes:</p>
-          <ul>
-            {sport.accessibilityNotes.map((note) => {
-              return <li key={note}>{note}</li>;
-            })}
-          </ul>
-        </>
-      )}
-      {/* {contact.twitter ? (
+            {sport.accessibilityNotes.length > 0 && (
+                <>
+                    <p>Accessibility Notes:</p>
+                    <ul>
+                        {sport.accessibilityNotes.map((note) => {
+                            return <li key={note}>{note}</li>;
+                        })}
+                    </ul>
+                </>
+            )}
+            {/* {contact.twitter ? (
           <p>
             <a href={`https://twitter.com/${contact.twitter}`}>
               {contact.twitter}
             </a>
           </p>
         ) : null} */}
-      {/* {contact.notes ? <p>{contact.notes}</p> : null} */}
-      {/* <div> */}
-      {/* <Form action="edit">
+            {/* {contact.notes ? <p>{contact.notes}</p> : null} */}
+            {/* <div> */}
+            {/* <Form action="edit">
             <button type="submit">Edit</button>
           </Form> */}
-      {/* <Form
+            {/* <Form
             action="destroy"
             method="post"
             onSubmit={(event) => {
@@ -93,9 +93,9 @@ export default function Contact() {
           >
             <button type="submit">Delete</button>
           </Form> */}
-      {/* </div> */}
-    </div>
-  );
+            {/* </div> */}
+        </div>
+    );
 }
 
 // const Favorite: FunctionComponent<{

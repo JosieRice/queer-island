@@ -1,6 +1,6 @@
 type ObjWithName = {
-    name: string
-}
+    name: string;
+};
 
 export function sortByName(a: ObjWithName, b: ObjWithName) {
     const nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -11,7 +11,7 @@ export function sortByName(a: ObjWithName, b: ObjWithName) {
     if (nameA > nameB) {
         return 1;
     }
-    
+
     // names must be equal
-    return 0; 
+    return 0;
 }
