@@ -1,11 +1,11 @@
+import type { LoaderFunctionArgs } from "@remix-run/node";
+
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
-import { oxfordCommaList } from "../utils/oxfordCommaList";
-
-import type { LoaderFunctionArgs } from "@remix-run/node";
 
 import { getSport } from "../data";
+import { oxfordCommaList } from "../utils/oxfordCommaList";
 
 // export const action = async ({ params, request }: ActionFunctionArgs) => {
 //   invariant(params.contactId, "Missing contactId param");

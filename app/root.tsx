@@ -1,4 +1,5 @@
 import type { LinksFunction } from "@remix-run/node";
+
 import { json, LoaderFunctionArgs } from "@remix-run/node";
 import {
     Form,
@@ -12,19 +13,20 @@ import {
     useNavigation,
     useSubmit,
 } from "@remix-run/react";
-import appStylesHref from "./app.css?url";
-import { getSports } from "./data";
 import { useEffect } from "react";
 
+import appStylesHref from "./app.css?url";
+import { getSports } from "./data";
+
 export const links: LinksFunction = () => [
-    { rel: "stylesheet", href: appStylesHref },
+    { href: appStylesHref, rel: "stylesheet" },
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
     const sports = await getSports(q);
-    return json({ sports, q });
+    return json({ q, sports });
 };
 
 // export const action = async () => {
@@ -33,7 +35,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 // };
 
 export default function App() {
-    const { sports, q } = useLoaderData<typeof loader>();
+    const { q, sports } = useLoaderData<typeof loader>();
     const navigation = useNavigation();
     const submit = useSubmit();
     const searching =
