@@ -109,7 +109,7 @@ export default function App() {
                                                       ? "pending"
                                                       : ""
                                             }
-                                            to={`contacts/${sport.id}`}
+                                            to={`sports/${sport.id}`}
                                         >
                                             {sport.name}
                                             {/* {sport.favourite ? <span>★</span> : null} */}

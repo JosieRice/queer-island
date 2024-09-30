@@ -8,6 +8,7 @@ import { sortByName } from "./utils/sortByName";
 
 type Sport =
     | "basketball"
+    | "boxing"
     | "cycling"
     | "fitness"
     | "running"
@@ -18,13 +19,24 @@ type Sport =
     | "walking"
     | "yoga";
 
-type SkillLevel = "all" | "varies";
+type SkillLevel = "all" | "recreational" | "varies";
 
-type Category = "ball sports" | "fitness" | "gym" | "studio" | "wheels";
+type Category =
+    | "ball sports"
+    | "climbing"
+    | "dancing"
+    | "fitness"
+    | "gym"
+    | "martial arts"
+    | "outdoors"
+    | "studio"
+    | "swimming"
+    | "wheels";
 
 type ContactMutation = {
     accessibilityNotes: string[];
     categories: Category[];
+    cost: string;
     description: string;
     id: string;
     instagram?: string;
@@ -34,6 +46,7 @@ type ContactMutation = {
     website?: string;
     when: string;
     where: string;
+    who: string;
 };
 
 export type ContactRecord = ContactMutation & {
@@ -120,7 +133,6 @@ export async function getSport(id: string) {
 
 const sports: ContactMutation[] = [
     {
-        // cost: '0',
         accessibilityNotes: [
             "Sidelines crew (non-playing) members welcome.",
             "Ground at the field is somewhat uneven but flat.",
@@ -128,24 +140,23 @@ const sports: ContactMutation[] = [
             "Street parking adjacent to the field",
         ],
         categories: ["ball sports"],
+        cost: "0",
         description: "pick up soccer",
         id: "1",
         instagram: "https://www.instagram.com/queersoccervic/",
         name: "Queer Soccer",
         primarySport: "soccer",
-        // who: "queer, dyke/lesbian, bi women, trans and non-binary adults",
         skillLevels: ["all"],
         when: "Every Saturday 2:30-4:30, all year. Drop-in. Message the instagram page to confirm, sometimes soccer is cancelled if there are not enough people planning to go.",
         where: "David Spencer field",
+        who: "queer, dyke/lesbian, bi women, trans and non-binary adults",
     },
     {
         accessibilityNotes: [
             "Bring a form of ID, as you will be asked to enter Naden",
         ],
-        // Who: Women, trans, and non-binary folx 16+
-        // Level of play: All abilities
-        // Cost: ~$6/session
         categories: ["ball sports"],
+        cost: "~$6/session",
         description: "Drop-in basketball ",
         id: "2",
         instagram:
@@ -155,22 +166,23 @@ const sports: ContactMutation[] = [
         skillLevels: ["all"],
         when: "Tuesdays 7-9 PM",
         where: "Naden Athletic Centre",
+        who: "Women, trans, and non-binary folx 16+",
     },
     {
         accessibilityNotes: [],
-        // Who: Queer identifying adults of all genders
-        // Level of play: Recreational
-        // Cost: Variable with fundraising opportunities
+
         categories: ["ball sports"],
+        cost: "Variable with fundraising opportunities",
         description:
             "tGA is an inclusive recreational queer softball team that plays in a mixed gender league",
         id: "3",
         name: "The Gay Agenda",
         primarySport: "softball",
-        skillLevels: ["all"],
+        skillLevels: ["recreational", "all"],
         // Tgavictoria@gmail.com
         when: "Spring 2025 *depending on player interest* ",
         where: "Variable",
+        who: "Queer identifying adults of all genders",
     },
     {
         accessibilityNotes: [
@@ -178,9 +190,9 @@ const sports: ContactMutation[] = [
             "Rides are marked on a 3-level system",
         ],
         categories: ["wheels"],
+        cost: "Free",
         description: "Bike riding events",
-        // Who: lgbtqia2s+ & allies
-        // Cost: Free
+
         id: "4",
         instagram: "https://www.instagram.com/vicprideride/",
         name: "Victoria Pride Ride",
@@ -188,10 +200,12 @@ const sports: ContactMutation[] = [
         skillLevels: ["varies"],
         when: "Variable",
         where: "Variable",
+        who: "lgbtqia2s+ & allies",
     },
     {
         accessibilityNotes: [],
         categories: ["wheels"],
+        cost: "Free",
         description: "drop in skating events at skate parks",
         id: "5",
         instagram:
@@ -201,13 +215,13 @@ const sports: ContactMutation[] = [
         skillLevels: [],
         when: "biweekly evenings (check IG for details)",
         where: "Topaz Park",
-        // Who: Queer and marginalized skaters
-        // Cost: Free
+        who: "Queer and marginalized skaters",
     },
     {
         accessibilityNotes: ["be prepared for an indoor or outdoor class"],
         categories: ["gym"],
-        description: "strength class (45 minutes)",
+        cost: "$5/session, contact them if cost is a barrier",
+        description: "strength class (45 minutes), no experience required",
         id: "6",
         name: "Queer Strength",
         primarySport: "fitness",
@@ -215,13 +229,12 @@ const sports: ContactMutation[] = [
         website: "https://www.thirdspacemvmt.com/queer-strength",
         when: "Variable - schedule on website",
         where: "721 Kings road",
-        // Who: members of the LGBTQIA2S+ community and their allies
-        // Level of play: No experience required
-        // Cost: $5/session, contact them if cost is a barrier
+        who: "members of the LGBTQIA2S+ community and their allies",
     },
     {
         accessibilityNotes: [],
         categories: ["studio"],
+        cost: "Free or by donation",
         description: "yoga classes (1 hour). Drop-in",
         id: "7",
         name: "Queer Yoga",
@@ -230,11 +243,12 @@ const sports: ContactMutation[] = [
         website: "https://www.danie.gay/",
         when: "Variable - schedule on website",
         where: "Variable",
-        // Cost: Free or by donation
+        who: "queer",
     },
     {
         accessibilityNotes: [],
         categories: ["fitness"],
+        cost: "free",
         description: "running club for Two-Spirit and queer people",
         id: "8",
         instagram:
@@ -245,12 +259,12 @@ const sports: ContactMutation[] = [
 
         when: "Mondays at 6pm",
         where: "variable, check Strava page at the link on IG",
-        // Who: Two-Spirit and queer people
-        // Cost: free
+        who: "Two-Spirit and queer people",
     },
     {
         accessibilityNotes: [],
         categories: ["fitness"],
+        cost: "$30 yearly membership",
         description:
             "Social organization for gay, bi, and trans men. Includes walking groups and other physical activities",
         id: "9",
@@ -260,12 +274,12 @@ const sports: ContactMutation[] = [
         website: "https://primetimersvictoria.weebly.com/calendar.html",
         when: "Variable - schedule on website",
         where: "unknown",
-        // Cost: $30 yearly membership
+        who: "unknown",
     },
-    // Outdoors
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["outdoors"],
+        cost: "Typically free",
         description:
             "Queer led organization aimed at minimizing barriers to accessing and engaging in the outdoors industry. Has included a used gear library, workshops, and outdoor events.",
         id: "10",
@@ -275,12 +289,12 @@ const sports: ContactMutation[] = [
         skillLevels: [],
         when: "Variable",
         where: "Variable",
-        // Who: People who have historically been excluded from the outdoors industry
-        // Cost: Typically free
+        who: "People who have historically been excluded from the outdoors industry",
     },
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["outdoors"],
+        cost: "Free",
         description: "Bird club",
         id: "11",
         instagram: "",
@@ -289,12 +303,12 @@ const sports: ContactMutation[] = [
         skillLevels: [],
         when: "Last weekend of every month, check instagram page for details",
         where: "Variable",
-        // Who: queers and their allies
-        // Cost: Free
+        who: "queers and their allies",
     },
     {
         accessibilityNotes: ["Detailed accessibility on their page"],
-        categories: [],
+        categories: ["outdoors"],
+        cost: "$25-55 per session, 15% off if you register for all 4 sessions. Compassionate pricing options, no one turned away for lack of funds.",
         description: "Queer adult forest play community",
         id: "12",
         instagram: "",
@@ -304,12 +318,12 @@ const sports: ContactMutation[] = [
         // https://www.facebook.com/people/Big-Kids/100092947794590/
         when: "Variable. Registration required.",
         where: "Variable",
-        // Who: Queer adults
-        // Cost: $25-55 per session, 15% off if you register for all 4 sessions. Compassionate pricing options, no one turned away for lack of funds.
+        who: "Queer adults",
     },
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["outdoors"],
+        cost: "Free",
         description: "Queer hiking group",
         id: "13",
         instagram: "https://www.instagram.com/outinthewoodsvi/",
@@ -318,29 +332,27 @@ const sports: ContactMutation[] = [
         skillLevels: ["varies"],
         when: "Variable",
         where: "Variable",
-        // Who: All genders
-        // Cost: Free
+        who: "All genders",
     },
-    // Other Sports
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["climbing"],
+        cost: "Drop-ins are typically the cost of admission to the climbing gym. Sometimes offer subsidized lessons.",
         description:
             "Queer climbing events and classes, as well as online community",
         id: "14",
         instagram: "https://www.instagram.com/goats.climb/",
         name: "GOATS Climbing",
         primarySport: "unknown",
-        skillLevels: [],
+        skillLevels: ["all"],
         when: "unknown",
         where: "Variable (mostly Boulderhouse Langford and Victoria, and Crag X)",
-        // Who: All are welcome
-        // Level of play: All levels
-        // Cost: Drop-ins are typically the cost of admission to the climbing gym. Sometimes offer subsidized lessons.
+        who: "All are welcome",
     },
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["fitness"],
+        cost: "by donation",
         description: "drop-in boxing fitness",
         id: "15",
         instagram: "",
@@ -350,12 +362,12 @@ const sports: ContactMutation[] = [
         website: "https://fernwoodnrg.ca/events/queer-boxing/",
         when: "Tuesdays 7-8 PM",
         where: "Fernwood community centre",
-        // Who: people who identify as queer
-        // Cost: by donation
+        who: "people who identify as queer",
     },
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["swimming"],
+        cost: "unknown",
         description: "Facebook group sharing queer swims in Victoria",
         id: "16",
         instagram: "",
@@ -365,11 +377,12 @@ const sports: ContactMutation[] = [
         // https://www.facebook.com/groups/1577031539215113/
         when: "Variable",
         where: "Variable, often Gordon Head Pool and Crystal Pool",
-        // Who: Typically trans, 2‐spirit and non‐binary community members and their friends and family
+        who: "Typically trans, 2‐spirit and non‐binary community members and their friends and family",
     },
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["martial arts"],
+        cost: "unknown",
         description: "Private facebook group for queer boxing ",
         id: "17",
         instagram: "",
@@ -378,12 +391,13 @@ const sports: ContactMutation[] = [
         skillLevels: [],
         when: "unknown",
         where: "unknown",
+        who: "unknown",
         // https://www.facebook.com/groups/718429439274028
-        // Please add more info if you are a member of this group!
     },
     {
         accessibilityNotes: [],
         categories: [],
+        cost: "unknown",
         description: "Advocacy and grants to support 2SLGBTQIA+ youth",
         id: "18",
         instagram: "",
@@ -393,10 +407,12 @@ const sports: ContactMutation[] = [
         website: "https://www.viqaa.info/",
         when: "unknown",
         where: "unknown",
+        who: "unknown",
     },
     {
         accessibilityNotes: [],
-        categories: [],
+        categories: ["climbing", "dancing", "swimming"],
+        cost: "Often free to uvic students",
         description:
             "Inclusive recreation events (eg climbing, dance, swimming) in collaboration with the 5 UVSS advocacy groups (including GEM and Pride)",
         id: "19",
@@ -407,8 +423,7 @@ const sports: ContactMutation[] = [
         website: "https://vikesrec.ca/inclusion-accessibility/air",
         when: "variable",
         where: "unknown",
-        // Who: UVic students/community members served by the UVSS advocacy groups
-        // Cost: Often free to uvic students
+        who: "UVic students/community members served by the UVSS advocacy groups",
     },
 ];
 

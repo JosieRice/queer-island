@@ -6,11 +6,11 @@ import invariant from "tiny-invariant";
 // import { getContact, updateContact } from "../data";
 
 export const action = async ({ params }: ActionFunctionArgs) => {
-    invariant(params.contactId, "Missing contactId param");
+    invariant(params.sportId, "Missing sportId param");
     // const formData = await request.formData();
     // const updates = Object.fromEntries(formData);
-    // await updateContact(params.contactId, updates);
-    return redirect(`/contacts/${params.contactId}`);
+    // await updateContact(params.sportId, updates);
+    return redirect(`/contacts/${params.sportId}`);
 };
 
 export const loader = async () => {};

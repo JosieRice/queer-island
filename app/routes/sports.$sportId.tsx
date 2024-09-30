@@ -8,16 +8,16 @@ import { getSport } from "../data";
 import { oxfordCommaList } from "../utils/oxfordCommaList";
 
 // export const action = async ({ params, request }: ActionFunctionArgs) => {
-//   invariant(params.contactId, "Missing contactId param");
+//   invariant(params.sportId, "Missing sportId param");
 //   const formData = await request.formData();
-//   return updateContact(params.contactId, {
+//   return updateContact(params.sportId, {
 //     favorite: formData.get("favorite") === "true",
 //   });
 // };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-    invariant(params.contactId, "Missing contactId param");
-    const sport = await getSport(params.contactId);
+    invariant(params.sportId, "Missing sportId param");
+    const sport = await getSport(params.sportId);
     if (!sport) {
         throw new Response("Not Found", { status: 404 });
     }
